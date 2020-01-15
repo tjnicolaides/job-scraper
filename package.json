@@ -1,0 +1,27 @@
+{
+  "name": "job-scraper",
+  "version": "1.0.0",
+  "description": "A serverless application for crawling tech job websites",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start" : "node src/index.js",
+    "docker:build": "docker build . --tag gcr.io/jobjawn-scraper/jobjawn",
+    "docker:auth": "gcloud auth configure-docker",
+    "docker:push": "docker push gcr.io/jobjawn-scraper/jobjawn",
+    "develop": "PORT=8080 && docker run -p 9090:${PORT} -e PORT=${PORT} gcr.io/jobjawn-scraper/jobjawn"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tjnicolaides/job-scraper.git"
+  },
+  "author": "TJ Nicolaides",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/tjnicolaides/job-scraper/issues"
+  },
+  "homepage": "https://github.com/tjnicolaides/job-scraper#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
