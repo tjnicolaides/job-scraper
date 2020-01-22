@@ -11,10 +11,12 @@ jobs:
     - name: 'Check out repo'
       uses: actions/checkout@v1
     
-    - name: 'Install Node dependencies'
+    - name: 'Set up Node actions'
       uses: actions/setup-node@v1
       with:
         node-version: '10.x'
+
+    - name: 'Install Node dependencies'
       run: npm install
 
     - name: 'Authenticate with Google Cloud'
@@ -22,4 +24,3 @@ jobs:
       with:
         version: '270.0.0'
         service_account_key: ${{ secrets.GCLOUD_AUTH }}
-      run: 'Authentication successful'
