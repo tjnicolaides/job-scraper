@@ -5,11 +5,11 @@
   "main": "src/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start" : "node src/index.js",
+    "start": "node src/index.js",
     "docker:build": "docker build . --tag gcr.io/jobjawn-scraper/jobjawn",
     "docker:auth": "gcloud auth configure-docker",
     "docker:push": "docker push gcr.io/jobjawn-scraper/jobjawn",
-    "develop": "PORT=8080 && docker run -p 9090:${PORT} -e PORT=${PORT} gcr.io/jobjawn-scraper/jobjawn"
+    "develop": "cross-env-shell PORT=8080 docker run -p 9090:$PORT -e PORT=$PORT gcr.io/jobjawn-scraper/jobjawn"
   },
   "repository": {
     "type": "git",
@@ -22,6 +22,7 @@
   },
   "homepage": "https://github.com/tjnicolaides/job-scraper#readme",
   "dependencies": {
+    "cross-env": "^6.0.3",
     "express": "^4.17.1"
   }
 }
