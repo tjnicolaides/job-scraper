@@ -21,6 +21,8 @@ jobs:
 
       - name: 'Install Node dependencies'
         run: npm install
+
+      -name: 'Hopefully fail'
         run: npm test
 
   publish:
