@@ -26,9 +26,7 @@ jobs:
         service_account_key: ${{ secrets.GCLOUD_AUTH }}
   
     - name: 'Build'
-      needs: 'Authenticate'
       run: docker build . --tag gcr.io/${{ secrets.GCLOUD_PROJECT }}/${{ secrets.GCLOUD_APP_NAME }}
 
     - name: 'Publish'
-      needs: ['Authenticate', Build]
       run: docker push gcr.io/${{ secrets.GCLOUD_PROJECT }}/${{ secrets.GCLOUD_APP_NAME }}
