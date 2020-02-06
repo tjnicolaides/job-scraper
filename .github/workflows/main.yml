@@ -18,30 +18,17 @@ jobs:
 
     - name: 'Install Node dependencies'
       run: npm install
+    
+    - name: 'Authenticate'
+      uses: GoogleCloudPlatform/github-actions/setup-gcloud@master
+      with:
+        version: '270.0.0'
+        service_account_key: ${{ secrets.GCLOUD_AUTH }}
+  
+    - name: 'Build'
+      needs: 'Authenticate'
+      run: docker build . --tag gcr.io/${{ secrets.GCLOUD_PROJECT }}/${{ secrets.GCLOUD_APP_NAME }}
 
-  authenticate:
-    runs-on: ubuntu-latest
-    needs: checkout
-
-    steps:
-      - name: 'Authenticate with Google Cloud'
-        uses: GoogleCloudPlatform/github-actions/setup-gcloud@master
-        with:
-          version: '270.0.0'
-          service_account_key: ${{ secrets.GCLOUD_AUTH }}
-
-  build:
-    runs-on: ubuntu-latest
-    needs: authenticate
-
-    steps:
-      - name: 'Build'
-        run: docker build . --tag gcr.io/${{ secrets.GCLOUD_PROJECT }}/${{ secrets.GCLOUD_APP_NAME }}
-
-  publish:
-    runs-on: ubuntu-latest
-    needs: [authenticate, build]
-
-    steps:
-      - name: 'Publish to Google Cloud'
-        run: docker push gcr.io/${{ secrets.GCLOUD_PROJECT }}/${{ secrets.GCLOUD_APP_NAME }}
+    - name: 'Publish'
+      needs: ['Authenticate', Build]
+      run: docker push gcr.io/${{ secrets.GCLOUD_PROJECT }}/${{ secrets.GCLOUD_APP_NAME }}
