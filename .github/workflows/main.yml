@@ -24,10 +24,7 @@ jobs:
       - name: 'Install Node dependencies'
         run: npm install
 
-      - name: 'Hopefully fail'
-        run: npm test
-
-  publish:
+  authenticate:
     runs-on: ubuntu-latest
     needs: node
 
@@ -37,3 +34,15 @@ jobs:
         with:
           version: '270.0.0'
           service_account_key: ${{ secrets.GCLOUD_AUTH }}
+
+  publish:
+    runs-on: ubuntu-latest
+    needs: authenticate
+
+    steps:
+      - name: 'Build'
+        run: docker build . --tag gcr.io/${{ secrets.GCLOUD_PROJECT }}/${{ secrets.GCLOUD_APP_NAME }}
+
+    steps:
+      - name: 'Publish to Google Cloud'
+        run: docker push gcr.io/${{ secrets.GCLOUD_PROJECT }}/${{ secrets.GCLOUD_APP_NAME }}
