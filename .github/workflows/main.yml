@@ -12,9 +12,9 @@ jobs:
       uses: actions/checkout@v1
 
   node:
+    needs: checkout
     steps:
       - name: 'Set up Node actions'
-        needs: checkout
         uses: actions/setup-node@v1
         with:
           node-version: '10.x'
@@ -26,9 +26,9 @@ jobs:
         run: npm test
 
   publish:
+    needs: node
     steps:
       - name: 'Authenticate with Google Cloud'
-        needs: node
         uses: GoogleCloudPlatform/github-actions/setup-gcloud@master
         with:
           version: '270.0.0'
