@@ -9,16 +9,19 @@ jobs:
 
     steps:
     - name: 'Check out repo'
-      uses: [actions/checkout@v1, actions/setup-node@v1]
-        with:
-          node-version: '10.x'
+      uses: actions/checkout@v1
 
-      - name: 'Install Node dependencies'
+    - name: 'Set up Node actions'
+      uses: actions/setup-node@v1
+      with:
+        node-version: '10.x'
+
+    - name: 'Install Node dependencies'
         run: npm install
 
   authenticate:
     runs-on: ubuntu-latest
-    needs: node
+    needs: checkout
 
     steps:
       - name: 'Authenticate with Google Cloud'
