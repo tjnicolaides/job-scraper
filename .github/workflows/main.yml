@@ -17,7 +17,7 @@ jobs:
         node-version: '10.x'
 
     - name: 'Install Node dependencies'
-        run: npm install
+      run: npm install
 
   authenticate:
     runs-on: ubuntu-latest
