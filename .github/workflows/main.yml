@@ -3,7 +3,7 @@ name: CI
 on: [push]
 
 jobs:
-  checkout:
+  build:
 
     runs-on: ubuntu-latest
 
@@ -21,13 +21,14 @@ jobs:
 
     - name: 'Build'
       run: docker build . --tag gcr.io/${{ secrets.GCLOUD_PROJECT }}/${{ secrets.GCLOUD_APP_NAME }}
+      continue-on-error: false
 
     - name: 'Authenticate'
       uses: GoogleCloudPlatform/github-actions/setup-gcloud@master
       continue-on-error: false
       with:
         version: '270.0.0'
-        service_account_key: test #${{ secrets.GCLOUD_AUTH }}
+        service_account_key: ${{ secrets.GCLOUD_AUTH }}
 
     - name: 'Publish'
       run: docker push gcr.io/${{ secrets.GCLOUD_PROJECT }}/${{ secrets.GCLOUD_APP_NAME }}
