@@ -9,7 +9,8 @@
     "docker:build": "docker build . --tag gcr.io/jobjawn-scraper/jobjawn",
     "docker:auth": "gcloud auth configure-docker",
     "docker:push": "docker push gcr.io/jobjawn-scraper/jobjawn",
-    "develop": "cross-env-shell PORT=8080 docker run -p 9090:$PORT -e PORT=$PORT gcr.io/jobjawn-scraper/jobjawn"
+    "develop": "cross-env-shell PORT=8080 docker run -p 9090:$PORT -e PORT=$PORT gcr.io/jobjawn-scraper/jobjawn",
+    "deploy": "gcloud run deploy jobjawn --image gcr.io/jobjawn-scraper/jobjawn --region us-east1 --project jobjawn-scraper --platform managed"
   },
   "repository": {
     "type": "git",
