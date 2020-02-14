@@ -1,0 +1,31 @@
+name: Build Branch
+
+on:
+  push:
+    branches-ignore:
+      - master
+    paths-ignore:
+      - '.github/**'
+
+jobs:
+    build:
+
+      runs-on: ubuntu-latest
+
+      steps:
+      - name: 'Check out repo'
+        uses: actions/checkout@v1
+
+      - name: 'Set up Node actions'
+        uses: actions/setup-node@v1
+        with:
+          node-version: '10.x'
+
+      - name: 'Install Node dependencies'
+        run: npm install
+
+      - name: "Set up Docker"
+        run: gcloud auth configure-docker
+
+      - name: 'Build'
+        run: docker build . --tag gcr.io/${{ secrets.GCLOUD_PROJECT }}/${{ secrets.GCLOUD_APP_NAME }}

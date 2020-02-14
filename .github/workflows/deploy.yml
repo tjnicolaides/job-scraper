@@ -1,9 +1,15 @@
-name: CI
+name: Build Deploy Master
 
-on: [push]
+on: 
+  push:
+    branches:
+      - master
+    paths-ignore:
+      - '.github/**'
 
 jobs:
   build:
+
     runs-on: ubuntu-latest
 
     steps:
@@ -34,3 +40,6 @@ jobs:
 
       - name: "Publish"
         run: docker push gcr.io/${{ secrets.GCLOUD_PROJECT }}/${{ secrets.GCLOUD_APP_NAME }}
+
+      - name: 'Deploy'
+        run: gcloud run deploy jobjawn --image gcr.io/${{ secrets.GCLOUD_PROJECT }}/${{ secrets.GCLOUD_APP_NAME }} --region us-east1 --project ${{ secrets.GCLOUD_PROJECT }} --platform managed
