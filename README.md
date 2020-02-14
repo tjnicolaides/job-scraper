@@ -35,3 +35,4 @@ Branch names should follow the following formats:
 - Releases: `release/release-2.0.0` 
 
 If you solve a tricky bug, the next person who works on this codebase will appreciate you including a Stack Overflow or Github Issue link to help understand why the change was made!
+
