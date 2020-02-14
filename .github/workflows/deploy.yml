@@ -42,4 +42,4 @@ jobs:
         run: docker push gcr.io/${{ secrets.GCLOUD_PROJECT }}/${{ secrets.GCLOUD_APP_NAME }}
 
       - name: 'Deploy'
-        run: gcloud run deploy jobjawn --image gcr.io/${{ secrets.GCLOUD_PROJECT }}/${{ secrets.GCLOUD_APP_NAME }} --region us-east1 --project ${{ secrets.GCLOUD_PROJECT }} --platform managed
+        run: gcloud components install beta --quiet && gcloud beta run deploy jobjawn --image gcr.io/${{ secrets.GCLOUD_PROJECT }}/${{ secrets.GCLOUD_APP_NAME }} --region us-east1 --project ${{ secrets.GCLOUD_PROJECT }} --platform managed
