@@ -1,0 +1,45 @@
+name: Build Deploy Master
+
+on: 
+  push:
+    branches:
+      - master
+    paths-ignore:
+      - '.github/**'
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: "Check out repo"
+        uses: actions/checkout@v1
+
+      - name: "Set up Node actions"
+        uses: actions/setup-node@v1
+        with:
+          node-version: "10.x"
+
+      - name: "Install Node dependencies"
+        run: npm install
+
+      - name: "Authenticate"
+        uses: GoogleCloudPlatform/github-actions/setup-gcloud@master
+        continue-on-error: false
+        with:
+          version: "270.0.0"
+          service_account_key: ${{ secrets.GCLOUD_AUTH }}
+
+      - name: "Set up Docker"
+        run: gcloud auth configure-docker
+
+      - name: "Build"
+        run: docker build . --tag gcr.io/${{ secrets.GCLOUD_PROJECT }}/${{ secrets.GCLOUD_APP_NAME }}
+        continue-on-error: false
+
+      - name: "Publish"
+        run: docker push gcr.io/${{ secrets.GCLOUD_PROJECT }}/${{ secrets.GCLOUD_APP_NAME }}
+
+      - name: 'Deploy'
+        run: gcloud run deploy jobjawn --image gcr.io/${{ secrets.GCLOUD_PROJECT }}/${{ secrets.GCLOUD_APP_NAME }} --region us-east1 --project ${{ secrets.GCLOUD_PROJECT }} --platform managed

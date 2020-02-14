@@ -1,6 +1,8 @@
 # Jobjawn Job Scraper
 Job Scraper is a serverless project that scrapes our favorite sites looking for tech jobs in the Philadelphia area.
 
+![](https://github.com/tjnicolaides/job-scraper/workflows/Build%20Deploy%20Master/badge.svg)
+
 ## Requirements
 To spin up a working copy of this site on your local machine, you'll need a few important pieces before getting started:
 - Sign up for a free [Google Cloud account](https://cloud.google.com/sdk/docs/)
