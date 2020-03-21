@@ -21,11 +21,11 @@ jobs:
         with:
           node-version: '10.x'
 
-      - name: 'lint'
-        run: npm run lint
-
       - name: 'Install Node dependencies'
         run: npm install
+
+      - name: 'lint'
+        run: npm run lint
 
       - name: "Set up Docker"
         run: gcloud auth configure-docker
