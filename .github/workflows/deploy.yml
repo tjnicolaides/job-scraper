@@ -24,7 +24,7 @@ jobs:
       - name: "Install Node dependencies"
         run: npm install
 
-      - name: 'lint'
+      - name: 'Lint'
         run: npm run lint
 
       - name: "Authenticate"
