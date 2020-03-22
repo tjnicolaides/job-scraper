@@ -5,7 +5,7 @@ module.exports = {
     es6: true,
   },
   extends: [
-    'airbnb-base',
+    'airbnb-typescript/base',
   ],
   globals: {
     Atomics: 'readonly',
@@ -14,6 +14,5 @@ module.exports = {
   parserOptions: {
     ecmaVersion: 2018,
   },
-  rules: {
-  },
+  rules: {},
 };
