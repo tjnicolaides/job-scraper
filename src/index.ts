@@ -10,7 +10,7 @@ app.get('/', (_req, res) => {
   res.send(`Hello ${target}!`);
 });
 
-const port = Number(process.env.PORT) || 8080;
+const port = Number(process.env.PORT) || 8080, ;
 app.listen(port, () => {
   // eslint-disable-next-line no-console
   console.log('Hello world listening on port', port);
