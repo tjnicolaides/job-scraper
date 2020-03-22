@@ -26,6 +26,9 @@ jobs:
 
       - name: 'Lint'
         run: npm run lint
+      
+      - name: 'Build the Node project'
+        run: npm run build
 
       - name: "Set up Docker"
         run: gcloud auth configure-docker
