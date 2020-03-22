@@ -24,13 +24,13 @@ jobs:
       - name: "Install Node dependencies"
         run: npm install
 
-      - name: 'Lint'
+      - name: 'Run ESLint'
         run: npm run lint
       
       - name: 'Build the Node project'
         run: npm run build  
 
-      - name: "Authenticate"
+      - name: "Authenticate with Google Cloud"
         uses: GoogleCloudPlatform/github-actions/setup-gcloud@master
         continue-on-error: false
         with:
@@ -44,8 +44,8 @@ jobs:
         run: docker build . --tag gcr.io/${{ secrets.GCLOUD_PROJECT }}/${{ secrets.GCLOUD_APP_NAME }}
         continue-on-error: false
 
-      - name: "Publish"
+      - name: "Publish the Docker image to Google Cloud"
         run: docker push gcr.io/${{ secrets.GCLOUD_PROJECT }}/${{ secrets.GCLOUD_APP_NAME }}
 
-      - name: 'Deploy'
+      - name: 'Deploy the image to Google Cloud Run'
         run: gcloud components install beta --quiet && gcloud beta run deploy jobjawn --image gcr.io/${{ secrets.GCLOUD_PROJECT }}/${{ secrets.GCLOUD_APP_NAME }} --region us-east1 --project ${{ secrets.GCLOUD_PROJECT }} --platform managed
