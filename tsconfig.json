@@ -10,7 +10,7 @@
     "allowSyntheticDefaultImports": true,
     "isolatedModules": true,
     "moduleResolution": "node",
-    "noEmit": true,
+    "noEmit": false,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "strict": true,                         /* Enable all strict type-checking options. */
