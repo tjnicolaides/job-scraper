@@ -5,13 +5,17 @@
   "main": "src/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "lint": "eslint ./src",
+    "lint": "eslint --ext .js,.ts ./src",
     "lint:fix": "npm run lint --fix",
-    "start": "node src/index.js",
+    "prebuild": "rimraf ./build",
+    "build": "tsc",
+    "prestart": "npm run build",
+    "start": "node build/index.js",
+    "start:dev": "nodemon",
     "docker:build": "docker build . --tag gcr.io/jobjawn-scraper/jobjawn",
     "docker:auth": "gcloud auth configure-docker",
     "docker:push": "docker push gcr.io/jobjawn-scraper/jobjawn",
-    "develop": "cross-env-shell PORT=8080 docker run -p 9090:$PORT -e PORT=$PORT gcr.io/jobjawn-scraper/jobjawn",
+    "develop": "cross-env-shell PORT=8080 \"docker run -p 9090:$PORT -e PORT=$PORT gcr.io/jobjawn-scraper/jobjawn\"",
     "deploy": "gcloud run deploy jobjawn --image gcr.io/jobjawn-scraper/jobjawn --region us-east1 --project jobjawn-scraper --platform managed"
   },
   "repository": {
@@ -25,12 +29,20 @@
   },
   "homepage": "https://github.com/tjnicolaides/job-scraper#readme",
   "dependencies": {
+    "@types/express": "^4.17.3",
     "cross-env": "^6.0.3",
     "express": "^4.17.1"
   },
   "devDependencies": {
+    "@types/node": "^13.9.2",
+    "@typescript-eslint/eslint-plugin": "^2.24.0",
     "eslint": "^6.8.0",
     "eslint-config-airbnb-base": "^14.1.0",
-    "eslint-plugin-import": "^2.20.1"
+    "eslint-config-airbnb-typescript": "^7.2.0",
+    "eslint-plugin-import": "^2.20.1",
+    "nodemon": "^2.0.2",
+    "rimraf": "^3.0.2",
+    "ts-node": "^8.8.0",
+    "typescript": "^3.8.3"
   }
 }

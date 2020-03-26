@@ -24,11 +24,14 @@ jobs:
       - name: 'Install Node dependencies'
         run: npm install
 
-      - name: 'Lint'
+      - name: 'Run ESLint'
         run: npm run lint
+      
+      - name: 'Build the Node project'
+        run: npm run build
 
       - name: "Set up Docker"
         run: gcloud auth configure-docker
 
-      - name: 'Build'
+      - name: 'Build the Docker container'
         run: docker build . --tag gcr.io/${{ secrets.GCLOUD_PROJECT }}/${{ secrets.GCLOUD_APP_NAME }}

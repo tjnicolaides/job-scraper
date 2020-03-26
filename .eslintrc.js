@@ -5,15 +5,14 @@ module.exports = {
     es6: true,
   },
   extends: [
-    'airbnb-base',
+    'airbnb-typescript/base',
   ],
   globals: {
     Atomics: 'readonly',
     SharedArrayBuffer: 'readonly',
   },
   parserOptions: {
-    ecmaVersion: 2018,
+    project: './tsconfig.json',
   },
-  rules: {
-  },
+  rules: {},
 };
