@@ -25,23 +25,18 @@ const transferEmployerFiles = () => {
   console.log(`dataDump employers information moved to ${employersDestination}\n`);
 };
 
-const cloneRepository = (repository) => {
-  cleanupTmpDirectory();
-
-  return clone(repository, tmpDestination, { shallow: true },
-    () => {
+const cloneRepository = (repository) => clone(repository, tmpDestination, { shallow: true },
+  () => {
+    // eslint-disable-next-line no-console
+    console.log(`${repository} cloned to ${tmpDestination}\n`);
+    fs.accessSync(tmpData, fs.constants.F_OK, (err) => {
       // eslint-disable-next-line no-console
-      console.log(`${repository} cloned to ${tmpDestination}\n`);
-      fs.accessSync(tmpData, fs.constants.F_OK, (err) => {
-        // eslint-disable-next-line no-console
-        console.log(`${tmpDestination} ${err ? 'does not exist' : 'exists'}`);
-      });
-
-      transferEmployerFiles();
-      cleanupTmpDirectory();
+      console.log(`${tmpDestination} ${err ? 'does not exist' : 'exists'}`);
     });
-};
 
+    transferEmployerFiles();
+    cleanupTmpDirectory();
+  });
 
 const init = () => {
   const repository = 'https://github.com/jobjawn/dataDump';
