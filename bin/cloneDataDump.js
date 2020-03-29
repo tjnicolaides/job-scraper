@@ -25,13 +25,13 @@ const transferEmployerFiles = () => {
   console.log(`dataDump employers information moved to ${employersDestination}\n`);
 };
 
-const cloneRepository = () => {
+const cloneRepository = (repository) => {
   cleanupTmpDirectory();
-  const repository = 'https://github.com/jobjawn/dataDump';
+
   return clone(repository, tmpDestination, { shallow: true },
     () => {
       // eslint-disable-next-line no-console
-      console.log(`dataDump repo cloned to ${tmpDestination}\n`);
+      console.log(`${repository} cloned to ${tmpDestination}\n`);
       fs.accessSync(tmpData, fs.constants.F_OK, (err) => {
         // eslint-disable-next-line no-console
         console.log(`${tmpDestination} ${err ? 'does not exist' : 'exists'}`);
@@ -44,7 +44,8 @@ const cloneRepository = () => {
 
 
 const init = () => {
-  cloneRepository();
+  const repository = 'https://github.com/jobjawn/dataDump';
+  cloneRepository(repository);
 };
 
 init();
