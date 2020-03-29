@@ -19,11 +19,12 @@ To spin up a working copy of this site on your local machine, you'll need a few 
 
 ## Development
 ### Develop with local Node
-- Run `npm run start:dev` to run the project on your local workstation
+- Run `npm run develop` to run the project on your local workstation
 - Visit [http://localhost:8080](http://localhost:8080) in your browser to view the "Hello world!" page.
 
 ### Test the Docker container
-- Run `npm run develop` to pull down a copy of the Docker image.
+- run `npm run build` and `npm run docker:build` to build the Docker container locally.
+- Run `npm run develop:docker` to run the build in your Docker container.
 - Visit [http://localhost:9090](http://localhost:9090) in your browser to view the "Hello world!" page.
 
 ### Linting

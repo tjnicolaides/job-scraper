@@ -11,7 +11,7 @@ Please check the type of change your PR introduces:
 
 
 ## Describe current behavior:
-<!-- Descirbe current behavior or provide link to relevant issue(s) -->
+<!-- Describe current behavior or provide link to relevant issue(s) -->
 
 Issue number: N/A
 
