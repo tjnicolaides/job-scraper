@@ -17,7 +17,7 @@ Issue number: N/A
 
 
 ## What is the new behavior:
-<!-- Describe the behvaior/changes added by this PR. -->
+<!-- Describe the behavior/changes added by this PR. -->
 
 
 ## Testing completed:
