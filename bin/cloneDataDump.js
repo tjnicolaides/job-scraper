@@ -14,6 +14,8 @@ const cleanupTmpDirectory = () => rimraf(tmpDestination, () => {
 });
 
 const transferEmployerFiles = () => {
+  fs.accessSync(tmpData, fs.constants.F_OK, (err) => console.log(`${tmpDestination} ${err ? 'does not exist' : 'exists'}\n`));
+
   fs
     .readdirSync(tmpData)
     .filter((file) => file.extname !== '.json')
@@ -27,10 +29,6 @@ const transferEmployerFiles = () => {
 const cloneRepository = (repository) => clone(repository, tmpDestination, { shallow: true },
   () => {
     console.log(`${repository} cloned to ${tmpDestination}\n`);
-
-    fs.accessSync(tmpData, fs.constants.F_OK, (err) => {
-      console.log(`${tmpDestination} ${err ? 'does not exist' : 'exists'}\n`);
-    });
 
     transferEmployerFiles();
     cleanupTmpDirectory();
