@@ -3,35 +3,33 @@ const rimraf = require('rimraf');
 const fs = require('fs');
 const path = require('path');
 
-const tmpDestination = path.resolve(`.${path.sep}tmp${path.sep}dataDump${path.sep}`);
-const tmpData = path.resolve(`${tmpDestination}${path.sep}data${path.sep}`);
-const employersDestination = path.resolve(`.${path.sep}src${path.sep}data${path.sep}employers${path.sep}`);
+const tmpDestination = path.resolve('./tmp/dataDump/');
+const tmpData = path.resolve(`${tmpDestination}/data/`);
+const employersDestination = path.resolve('./src/data/employers/');
+
+/* eslint-disable no-console */
 
 const cleanupTmpDirectory = () => rimraf(tmpDestination, () => {
-  // eslint-disable-next-line no-console
   console.log(`${tmpDestination} has been removed.\n`);
 });
 
 const transferEmployerFiles = () => {
-  fs.readdirSync(tmpData).forEach((file) => {
-    if (path.extname(file) === '.json') {
-      fs.renameSync(`${tmpData}${path.sep}${file}`, `${employersDestination}${path.sep}${file}`, (err) => {
-        if (err) throw err;
-      });
-    }
-  });
+  fs
+    .readdirSync(tmpData)
+    .filter((file) => file.extname !== '.json')
+    .map((file) => fs.renameSync(path.resolve(`${tmpData}/${file}`), path.resolve(`${employersDestination}/${file}`), (err) => {
+      if (err) throw err;
+    }));
 
-  // eslint-disable-next-line no-console
   console.log(`dataDump employers information moved to ${employersDestination}\n`);
 };
 
 const cloneRepository = (repository) => clone(repository, tmpDestination, { shallow: true },
   () => {
-    // eslint-disable-next-line no-console
     console.log(`${repository} cloned to ${tmpDestination}\n`);
+
     fs.accessSync(tmpData, fs.constants.F_OK, (err) => {
-      // eslint-disable-next-line no-console
-      console.log(`${tmpDestination} ${err ? 'does not exist' : 'exists'}`);
+      console.log(`${tmpDestination} ${err ? 'does not exist' : 'exists'}\n`);
     });
 
     transferEmployerFiles();
