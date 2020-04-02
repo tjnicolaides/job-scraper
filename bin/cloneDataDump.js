@@ -16,12 +16,14 @@ const cleanupTmpDirectory = () => rimraf(tmpDestination, () => {
 const transferEmployerFiles = () => {
   fs.accessSync(tmpData, fs.constants.F_OK, (err) => console.log(`${tmpDestination} ${err ? 'does not exist' : 'exists'}\n`));
 
-  fs
-    .readdirSync(tmpData)
-    .filter((file) => file.extname !== '.json')
-    .map((file) => fs.renameSync(path.resolve(`${tmpData}/${file}`), path.resolve(`${employersDestination}/${file}`), (err) => {
-      if (err) throw err;
-    }));
+  fs.readdir(tmpData, (err, files) => {
+    files
+      .filter((file) => path.extname(file) === '.json')
+      // eslint-disable-next-line no-shadow
+      .map((file) => fs.renameSync(path.resolve(`${tmpData}/${file}`), path.resolve(`${employersDestination}/${file}`), (err) => {
+        if (err) throw err;
+      }));
+  });
 
   console.log(`dataDump employers information moved to ${employersDestination}\n`);
 };
