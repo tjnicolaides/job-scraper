@@ -1,29 +1,56 @@
 import fs from 'fs';
 import path from 'path';
+import { EmployerJSON } from '../types';
 
 const employersDestination = path.resolve('./src/data/employers/');
 
-const readFileContents = (file: string) => fs.readFile(path.resolve(`${employersDestination}/${file}`), 'utf8', (err, data) => {
-  if (err) throw err;
+type EmployerDetail = {
+  name: string;
+  url: string;
+  jobsUrl: string;
+};
+
+const cleanEmployerJSON = (data:string): EmployerJSON => {
   // eslint-disable-next-line no-useless-escape
   const re = /\,(?!\s*?[\{\[\"\'\w])/g;
-  const parsedJobInfo = JSON.parse(data.replace(re, ''));
+  const jsonWithOutTrailingCommas = data.replace(re, '');
+  return JSON.parse(jsonWithOutTrailingCommas);
+};
 
-  // eslint-disable-next-line no-console
-  console.log(`${parsedJobInfo.company.name}\n${parsedJobInfo.company.jobs_url}\n`);
-});
+const getEmployerDetails = (data: string): EmployerDetail => {
+  const employer = cleanEmployerJSON(data);
+  const { company: { name, url, jobs_url: jobsUrl } } = employer;
+  return { name, url, jobsUrl };
+};
 
-const readEmployerFiles = (err: Error | null, files: string[]) => {
+const readFileContents = (file: string): Promise<EmployerDetail> => {
+  const employerFile = `${employersDestination}/${file}`;
+
+  // returns a promise (then/catch pattern) that will eventually return an object
+  return fs.promises.readFile(employerFile)
+    .then((data) => getEmployerDetails(data.toString()))
+    .catch((error) => { throw error; });
+};
+
+const readEmployerFiles = (err: Error | null, files: string[]): Promise<EmployerDetail[]> => {
   if (err) throw err;
-  return files
+
+  // filters for JSON files, then loops through filtered set and returns *resolved* promises
+  const employers = files
     .filter((file) => path.extname(file) === '.json')
-    // eslint-disable-next-line no-shadow
-    .map((file) => readFileContents(file));
+    .map((file) => Promise.resolve(readFileContents(file)));
+
+  // returns one promise that resolves when all the promises in the array are resolved
+  return Promise.all(employers);
 };
 
-const getEmployerFiles = () => {
-  fs.readdir(employersDestination, (err, files) => readEmployerFiles(err, files));
-};
+const getEmployerFiles = () => fs.readdir(employersDestination, async (err, files) => {
+  // awaits readEmployerFile Promise to resolve before going to next line
+  const employers = await readEmployerFiles(err, files);
+  // eslint-disable-next-line no-console
+  console.log(employers);
+  return employers;
+});
 
 
 export default () => getEmployerFiles();
