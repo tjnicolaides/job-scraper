@@ -44,13 +44,14 @@ const readEmployerFiles = (err: Error | null, files: string[]): Promise<Employer
   return Promise.all(employers);
 };
 
-const getEmployerFiles = () => fs.readdir(employersDestination, async (err, files) => {
-  // awaits readEmployerFile Promise to resolve before going to next line
-  const employers = await readEmployerFiles(err, files);
-  // eslint-disable-next-line no-console
-  console.log(employers);
-  return employers;
-});
+const getEmployerFiles = (): void => fs.readdir(employersDestination,
+  async (err, files): Promise<EmployerDetail[]> => {
+    // awaits readEmployerFile Promise to resolve before going to next line
+    const employers = await readEmployerFiles(err, files);
+    // eslint-disable-next-line no-console
+    console.log(employers);
+    return employers;
+  });
 
 
 export default () => getEmployerFiles();
