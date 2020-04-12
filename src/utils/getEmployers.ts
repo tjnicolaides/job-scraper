@@ -10,7 +10,7 @@ type EmployerDetail = {
   jobsUrl: string;
 };
 
-const cleanEmployerJSON = (data:string): EmployerJSON => {
+export const cleanEmployerJSON = (data:string): EmployerJSON => {
   // eslint-disable-next-line no-useless-escape
   const re = /\,(?!\s*?[\{\[\"\'\w])/g;
   const jsonWithOutTrailingCommas = data.replace(re, '');

@@ -27,6 +27,9 @@ To spin up a working copy of this site on your local machine, you'll need a few 
 - Run `npm run develop:docker` to run the build in your Docker container.
 - Visit [http://localhost:9090](http://localhost:9090) in your browser to view the "Hello world!" page.
 
+### Unit testing
+- run `npm run test` to run unit tests against scripts.
+
 ### Linting
 - Run `npm run lint` to find formatting and minor syntax errors. Use `npm run lint:fix` to apply automatic fixes to many issues.
   - This project relies on [eslint-config-airbnb-typescript](https://www.npmjs.com/package/eslint-config-airbnb-typescript). 

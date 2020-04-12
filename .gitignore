@@ -1,7 +1,7 @@
 node_modules
 npm-debug.log
 *.txt
-*.json
+src/**/*.json
 *.DS_Store
 .vscode/
 build
