@@ -17,13 +17,13 @@ export const cleanEmployerJSON = (data:string): EmployerJSON => {
   return JSON.parse(jsonWithOutTrailingCommas);
 };
 
-const getEmployerDetails = (data: string): EmployerDetail => {
+export const getEmployerDetails = (data: string): EmployerDetail => {
   const employer = cleanEmployerJSON(data);
   const { company: { name, url, jobs_url: jobsUrl } } = employer;
   return { name, url, jobsUrl };
 };
 
-const readFileContents = (file: string): Promise<EmployerDetail> => {
+export const readFileContents = (file: string): Promise<EmployerDetail> => {
   const employerFile = `${employersDestination}/${file}`;
 
   // returns a promise (then/catch pattern) that will eventually return an object
@@ -32,7 +32,7 @@ const readFileContents = (file: string): Promise<EmployerDetail> => {
     .catch((error) => { throw error; });
 };
 
-const readEmployerFiles = (err: Error | null, files: string[]): Promise<EmployerDetail[]> => {
+export const readEmployerFiles = (err: Error|null, files: string[]): Promise<EmployerDetail[]> => {
   if (err) throw err;
 
   // filters for JSON files, then loops through filtered set and returns *resolved* promises
@@ -44,7 +44,7 @@ const readEmployerFiles = (err: Error | null, files: string[]): Promise<Employer
   return Promise.all(employers);
 };
 
-const getEmployerFiles = (): void => fs.readdir(employersDestination,
+export const getEmployerFiles = (): void => fs.readdir(employersDestination,
   async (err, files): Promise<EmployerDetail[]> => {
     // awaits readEmployerFile Promise to resolve before going to next line
     const employers = await readEmployerFiles(err, files);
