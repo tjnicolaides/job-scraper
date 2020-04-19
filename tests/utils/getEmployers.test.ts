@@ -1,5 +1,4 @@
 import { cleanEmployerJSON, getEmployerDetails } from '../../src/utils/getEmployers';
-const mock = require('mock-fs');
 
 describe('cleanEmployerJSON', () => {
   it('cleans trailing commas in JSON', () => {
