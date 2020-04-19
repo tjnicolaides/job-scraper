@@ -4,7 +4,8 @@
   "description": "A serverless application for crawling tech job websites",
   "main": "src/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "jest",
+    "test:watch": "npm run test -- --watch",
     "lint": "eslint --ext .js,.ts ./src",
     "lint:fix": "npm run lint --fix",
     "prebuild": "rimraf ./build && node ./bin/cloneDataDump.js",
@@ -42,6 +43,12 @@
     "typescript": "^3.8.3"
   },
   "devDependencies": {
-    "nodemon": "^2.0.2"
+    "@babel/preset-env": "^7.9.5",
+    "@babel/preset-typescript": "^7.9.0",
+    "@types/jest": "^25.2.1",
+    "babel-jest": "^25.3.0",
+    "jest": "^25.3.0",
+    "nodemon": "^2.0.2",
+    "ts-jest": "^25.3.1"
   }
 }
