@@ -1,18 +1,8 @@
 import express from 'express';
-import got from 'got';
-import getEmployers from './utils/getEmployers';
+import { getEmployerFiles } from './utils/getEmployers';
+import crawlJobLists from './utils/crawlJobList';
 
 const app = express();
-const metascraper = require('metascraper')([
-  /* eslint-disable global-require */
-  require('metascraper-title')(),
-  require('metascraper-author')(),
-  require('metascraper-description')(),
-  require('metascraper-date')(),
-  require('metascraper-url')(),
-  /* eslint-enable global-require */
-]);
-
 
 app.get('/', (_req, res) => {
   const target: string = process.env.TARGET || 'World, from TypeScript!';
@@ -23,23 +13,16 @@ app.get('/', (_req, res) => {
   res.send(responseMessage);
 });
 
-app.get('/test', (_req, res) => {
+app.get('/test', async (_req, res) => {
   const testResponseMessage = 'Parsing list of employers and sites.';
-  getEmployers();
+  const employers = await getEmployerFiles();
+
+  const jobInfo = await crawlJobLists(employers);
+
+  // eslint-disable-next-line no-console
+  console.log(jobInfo);
+
   res.send(testResponseMessage);
-});
-
-app.get('/scrape', async (_req, res) => {
-  // eslint-disable-next-line no-console
-  console.log('Scrapin\'');
-
-  const targetURL = 'https://mobilesyrup.com/2020/05/01/oneplus-ideas-user-suggested-features-oxygenos/';
-  // eslint-disable-next-line no-console
-  const { body: html, url } = await got(targetURL);
-  const metadata = await metascraper({ html, url });
-  res.send(metadata);
-  // eslint-disable-next-line no-console
-  console.log(metadata);
 });
 
 const port: number = Number(process.env.PORT) || 8080;

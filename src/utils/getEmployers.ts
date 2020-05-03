@@ -1,14 +1,9 @@
 import fs from 'fs';
 import path from 'path';
 import { EmployerJSON } from '../types';
+import { EmployerDetail } from '../types/employer';
 
 const employersDestination = path.resolve('./src/data/employers/');
-
-type EmployerDetail = {
-  name: string;
-  url: string;
-  jobsUrl: string;
-};
 
 export const cleanEmployerJSON = (data:string): EmployerJSON => {
   // eslint-disable-next-line no-useless-escape
@@ -32,9 +27,7 @@ export const readFileContents = (file: string): Promise<EmployerDetail> => {
     .catch((error) => { throw error; });
 };
 
-export const readEmployerFiles = (err: Error|null, files: string[]): Promise<EmployerDetail[]> => {
-  if (err) throw err;
-
+export const readEmployerFiles = (files: string[]): Promise<EmployerDetail[]> => {
   // filters for JSON files, then loops through filtered set and returns *resolved* promises
   const employers = files
     .filter((file) => path.extname(file) === '.json')
@@ -44,14 +37,12 @@ export const readEmployerFiles = (err: Error|null, files: string[]): Promise<Emp
   return Promise.all(employers);
 };
 
-export const getEmployerFiles = (): void => fs.readdir(employersDestination,
-  async (err, files): Promise<EmployerDetail[]> => {
-    // awaits readEmployerFile Promise to resolve before going to next line
-    const employers = await readEmployerFiles(err, files);
-    // eslint-disable-next-line no-console
-    console.log(employers);
-    return employers;
-  });
+export const getEmployerFiles = async () => {
+  const employerDir = fs.readdirSync(employersDestination);
 
+  // awaits readEmployerFile Promise to resolve before going to next line
+  const employers = await readEmployerFiles(employerDir);
+  return employers;
+};
 
-export default () => getEmployerFiles();
+export default getEmployerFiles;
