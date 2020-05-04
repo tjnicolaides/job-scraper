@@ -11,28 +11,20 @@ const metascraper = require('metascraper')([
   /* eslint-enable global-require */
 ]);
 
-const scrapeURL = async (targetURL: string): Promise<void> => {
-  // eslint-disable-next-line no-console
-  console.log('Scrapin\'');
-
-  // eslint-disable-next-line no-console
-  const { body: html, url } = await got(targetURL);
-  const metadata = await metascraper({ html, url });
-  // eslint-disable-next-line no-console
-  return (metadata);
+type SiteMetadata = {
+  title: string | null;
+  author: string | null;
+  description: string | null;
+  date: string | null;
+  url: string | null;
 };
 
-const gatherURLs = async (employers: EmployerDetail[]) => {
-  // eslint-disable-next-line no-console
-  console.log(employers);
-  const targetURL = 'https://mobilesyrup.com/2020/05/01/oneplus-ideas-user-suggested-features-oxygenos/';
-  const response = scrapeURL(targetURL);
-  return (response);
+const scrapeEmployerSiteMetadata = async (targetURL: string): Promise<SiteMetadata> => {
+  const { body: html, url } = await got(targetURL, { rejectUnauthorized: false });
+  return metascraper({ html, url });
 };
 
-const crawlJobLists = async (employer: EmployerDetail[]) => {
-  const response = gatherURLs(employer);
-  return (response);
-};
+const crawlJobLists = (employers: EmployerDetail[]): Promise<SiteMetadata>[] => employers
+  .map((employer) => scrapeEmployerSiteMetadata(employer.url));
 
 export default crawlJobLists;
