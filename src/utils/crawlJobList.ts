@@ -38,22 +38,7 @@ const scrapeEmployerSiteMetadata = async (targetURL: string): Promise<SiteMetada
   );
 };
 
-// eslint-disable-next-line max-len
-const crawlJobLists = (employers: EmployerDetail[]): Promise<SiteMetadata>[] => employers.map((employer) => {
-  let result:Promise<SiteMetadata> = Promise.resolve({
-    title: null,
-    author: null,
-    description: null,
-    date: null,
-    url: employer.url,
-  });
-  try {
-    result = scrapeEmployerSiteMetadata(employer.url);
-  } catch (error) {
-    // eslint-disable-next-line no-console
-    console.log(error);
-  }
-  return result;
-});
+const crawlJobLists = (employers: EmployerDetail[]): Promise<SiteMetadata>[] => employers
+  .map((employer) => scrapeEmployerSiteMetadata(employer.url));
 
 export default crawlJobLists;
