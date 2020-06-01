@@ -9,7 +9,7 @@
     "lint": "eslint --ext .js,.ts ./src",
     "lint:fix": "npm run lint --fix",
     "prebuild": "rimraf ./build && node ./bin/cloneDataDump.js",
-    "build": "tsc",
+    "build": "tsc -p tsconfig-build.json",
     "prestart": "npm run build",
     "start": "node build/index.js",
     "develop": "nodemon",
