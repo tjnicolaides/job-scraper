@@ -19,7 +19,7 @@ describe('crawlJobLists', () => {
       author: null,
       description: 'ABC Company is here for you',
       date: '2020-05-03T21:46:25.000Z',
-      url: 'https://abc.domain',
+      url: 'https://abc.domain/',
     }];
 
     const response = await Promise.all(crawlJobLists([mockEmployer]));
