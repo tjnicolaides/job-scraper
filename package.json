@@ -38,7 +38,7 @@
     "eslint-plugin-import": "^2.20.1",
     "express": "^4.17.1",
     "git-clone": "^0.1.0",
-    "got": "^11.1.4",
+    "got": "^11.8.5",
     "metascraper": "^5.11.10",
     "metascraper-author": "^5.11.10",
     "metascraper-date": "^5.11.10",
